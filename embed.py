@@ -61,6 +61,6 @@ for i in tqdm(range(0,len(images),batch_size)):
     else:
         image_arr = np.concatenate((image_arr, batch_emb), axis=0)
 print(image_arr.shape)
-print("First Embedding", endl="")
+print("First Embedding", end='')
 print(image_arr[0])
 print()
