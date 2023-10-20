@@ -1,15 +1,26 @@
+import os, os.path
+
 import numpy as np
 from datasets import load_dataset
 import torch
-from transformers import CLIPTokenizerFast, CLIPProcessor, CLIPModel
+from transformers import CLIPProcessor, CLIPModel
 from tqdm.auto import tqdm
+
+# name of folder being converted
+foldername = "Good Form"
+
+if foldername=="Bad Form":
+    filename = 'bad'
+else:
+    filename = 'good'
+
 
 def demo(model, processor, tokenizer, imagenette, device):
     prompt = "a dog in the snow"
     inputs = tokenizer(prompt, return_tensors="pt")
 
     text_emb = model.get_text_features(**inputs)
-
+    
     image = processor(
         text=None,
         images=imagenette[0]['image'],
@@ -23,7 +34,7 @@ def demo(model, processor, tokenizer, imagenette, device):
 def main():
 
     imagenette = load_dataset(
-        'Good Form',
+        foldername,
         'full_size',
         split='train',
         verification_mode='no_checks'
@@ -39,8 +50,8 @@ def main():
     # embed several images
     np.random.seed(0)
     # TODO use `np.random.choice` instead because we might want to avoid duplicates
-    sample_idx = np.random.randint(0, len(imagenette) + 1, 25).tolist()
-    images = [imagenette[i]['image'] for i in sample_idx]
+    # sample_idx = np.random.randint(0, len(imagenette) + 1, 25).tolist()
+    images = [imagenette[i]['image'] for i in range(len(os.listdir(foldername)))]
     print(len(images))
 
     batch_size = 16
@@ -65,6 +76,8 @@ def main():
         else:
             image_arr = np.concatenate((image_arr, batch_emb), axis=0)
     print(image_arr.shape)
+    np.save(filename,image_arr)
+    print(len(os.listdir(foldername)))
     print("First Embedding", end='')
     print(image_arr[0])
     print()

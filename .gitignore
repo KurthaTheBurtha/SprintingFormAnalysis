@@ -3,3 +3,6 @@ Good Form
 git token
 .DS_Store
 .idea/
+bad.npy
+good.npy
+venv
