@@ -21,9 +21,11 @@ def train():
     # split dataset into test and train
     inputs_train, inputs_test, target_train, target_test = train_test_split(inputs,target,test_size=0.5, random_state=42)\
 
-    # train data on 50% of data
+    # fit data on 50% of data
     classifier = MLPClassifier(random_state=0, hidden_layer_sizes=(25,50,10,5),batch_size=5)
     classifier.fit(inputs_train, target_train)
+
+    # get results and print
     results = classifier.predict(inputs_test)
     print(str(round((results == target_test).mean()*100,2))+'% accuracy')
 

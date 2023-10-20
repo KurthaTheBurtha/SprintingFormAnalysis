@@ -3,4 +3,6 @@
 - Download the "Good Form" and "Bad Form" folder from [Google Drive](https://drive.google.com/drive/folders/1Ajzu23Gy-CA6duWHDf6S_OP__TtsRbAW?usp=sharing) and unzip them into the main folder
 - Install `numpy`, `matplotlib`, and `transformers` using pip
 - Run embed.py either in the command prompt or with PyCharm
-- Change line number 7 to get Embeddings from other folders
+- Change variable `foldername` to "Bad Form"
+- Run embed.py again in either the command prompt or with PyCharm
+- run model.py
