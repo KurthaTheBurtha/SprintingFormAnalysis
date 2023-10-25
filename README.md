@@ -4,4 +4,4 @@
 - Install `numpy`, `matplotlib`, `torch`, and `transformers` using pip
 - Run embed.py either in the command prompt or with PyCharm
 - Run model.py
-- Done!, just look at the accuracy
+- Done, observe the accuracy
