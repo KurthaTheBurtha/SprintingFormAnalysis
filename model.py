@@ -19,6 +19,13 @@ def train():
     # split dataset into test and train
     inputs_train, inputs_test, target_train, target_test = train_test_split(inputs, target, test_size=0.5, random_state=42)
 
+    # # 96.67% accuracy
+    # classifier = MLPClassifier(random_state=0, hidden_layer_sizes=(25, 50, 10, 5), batch_size=5)
+    # classifier.fit(inputs_train, target_train)
+    #
+    # results = classifier.predict(inputs_test)
+    # print(str(round((results == target_test).mean() * 100, 2)) + '% accuracy')
+
     model = MLPClassifier()
     grid = GridSearchCV(model, {
         'random_state': [0],
@@ -27,7 +34,9 @@ def train():
         'learning_rate_init': [0.001, ]
     }, verbose=1)
     grid.fit(inputs_train, target_train)
-    breakpoint()
+    results = grid.score(inputs_test,target_test)
+    print(results)
+    # breakpoint()
 
 if __name__ == '__main__':
     train()

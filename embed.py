@@ -55,7 +55,24 @@ def main(foldername, filename):
     # saves embeddings to .npy file
     np.save(filename, image_arr)
 
+def word():
+    # read input from text file
+    f = open("eng_desc.txt","r")
+    goodinput = f.readline();
+    badinput = f.readline();
+
+    # read from embeddings
+    good = np.load('good.npy')
+    bad = np.load('bad.npy')
+
+    # find the one with shorter length
+
+    distance = np.linalg.norm()
+    print(goodinput)
+    print(badinput)
+
 if __name__ == '__main__':
     # runs program for both good and bad form
     main('Good Form', 'good')
     main('Bad Form', 'bad')
+    word()
