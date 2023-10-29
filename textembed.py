@@ -19,22 +19,25 @@ def main():
 
     # encode text to vectors
     with torch.inference_mode():
-        goodtoken = tokenizer(goodinput, return_tensors="pt")
-        badtoken = tokenizer(badinput, return_tensors="pt")
-        good_emb = model.get_text_features(**goodtoken).numpy()
-        bad_emb = model.get_text_features(**badtoken).numpy()
+        good_form_desc_emb = model.get_text_features(
+            **tokenizer(goodinput.strip().split(', '), padding=True, return_tensors='pt')
+        ).detach().numpy()
+        bad_form_desc_emb = model.get_text_features(
+            **tokenizer(goodinput.strip().split(', '), padding=True, return_tensors='pt')
+        ).detach().numpy()
 
     # read from embeddings
     good = np.load('good.npy')
     bad = np.load('bad.npy')
 
     # for good
+    '''
     length = min(len(good), len(bad))
     gooddis = 0
     baddis = 0
     for i in range(length):
-        gooddis = gooddis + pow(np.linalg.norm(good[i] - good_emb),2)
-        baddis = baddis + pow(np.linalg.norm(bad[i] - good_emb),2)
+        gooddis = gooddis + pow(np.linalg.norm(good[i] - good_emb), 2)
+        baddis = baddis + pow(np.linalg.norm(bad[i] - good_emb), 2)
     print("Good Embeddings")
     print("Sum of Squared Distance from Good Vectors: " + str(gooddis))
     print("Sum of Squared Distance from Bad Vectors: " + str(baddis))
@@ -60,6 +63,7 @@ def main():
     else:
         ans = "Bad"
     print("Closer to " + ans + " Embeddings")
+    '''
 
 if __name__ == "__main__":
     main()
