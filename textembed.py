@@ -9,61 +9,63 @@ def main():
     # assigns cpu and processor, pulls model from CLIP
     device = "cpu"
     model = CLIPModel.from_pretrained(model_id).to(device)
-    processor = CLIPProcessor.from_pretrained(model_id)
     tokenizer = CLIPTokenizerFast.from_pretrained(model_id)
 
     # read input from text file
     f = open("eng_desc.txt", "r")
     goodinput = f.readline()
     badinput = f.readline()
-
     # encode text to vectors
     with torch.inference_mode():
         good_form_desc_emb = model.get_text_features(
             **tokenizer(goodinput.strip().split(', '), padding=True, return_tensors='pt')
         ).detach().numpy()
         bad_form_desc_emb = model.get_text_features(
-            **tokenizer(goodinput.strip().split(', '), padding=True, return_tensors='pt')
+            **tokenizer(badinput.strip().split(', '), padding=True, return_tensors='pt')
         ).detach().numpy()
 
     # read from embeddings
     good = np.load('good.npy')
     bad = np.load('bad.npy')
 
-    # for good
-    '''
-    length = min(len(good), len(bad))
-    gooddis = 0
-    baddis = 0
-    for i in range(length):
-        gooddis = gooddis + pow(np.linalg.norm(good[i] - good_emb), 2)
-        baddis = baddis + pow(np.linalg.norm(bad[i] - good_emb), 2)
-    print("Good Embeddings")
-    print("Sum of Squared Distance from Good Vectors: " + str(gooddis))
-    print("Sum of Squared Distance from Bad Vectors: " + str(baddis))
-    if gooddis < baddis:
-        ans = "Good"
-    else:
-        ans = "Bad"
-    print("Closer to " + ans + " Embeddings")
-
+    # good
+    diff = 0
+    totalgood = 0
+    totalbad = 0
+    for i in good_form_desc_emb:
+        goodmean = np.mean([np.linalg.norm(img - i) for img in good])
+        # print("Good Mean: "+str(goodmean))
+        badmean = np.mean([np.linalg.norm(img - i) for img in bad])
+        # print("Bad Mean: "+str(badmean))
+        diff = diff+ (goodmean-badmean)
+        if goodmean < badmean:
+            totalgood +=1
+        else:
+            totalbad += 1
+    print("Total difference between Bad Text and Good Embeddings: " + str(diff))
+    print("Good") if diff < 0 else print("Bad")
+    print("Total Good: " + str(totalgood))
+    print("Total Bad: " + str(totalbad))
     print()
 
-    # for bad
-    gooddis = 0
-    baddis = 0
-    for i in range(length):
-        gooddis = gooddis + pow(np.linalg.norm(good[i] - bad_emb),2)
-        baddis = baddis + pow(np.linalg.norm(bad[i] - bad_emb),2)
-    print("Bad Embeddings")
-    print("Sum of Squared Distance from Good Vectors: " + str(gooddis))
-    print("Sum of Squared Distance from Bad Vectors: " + str(baddis))
-    if gooddis < baddis:
-        ans = "Good"
-    else:
-        ans = "Bad"
-    print("Closer to " + ans + " Embeddings")
-    '''
+    # bad
+    diff = 0
+    totalgood = 0
+    totalbad = 0
+    for i in bad_form_desc_emb:
+        goodmean = np.mean([np.linalg.norm(img - i) for img in good])
+        # print("Good Mean: "+str(goodmean))
+        badmean = np.mean([np.linalg.norm(img - i) for img in bad])
+        # print("Bad Mean: "+str(badmean))
+        diff = diff+ (goodmean-badmean)
+        if goodmean < badmean:
+            totalgood +=1
+        else:
+            totalbad += 1
+    print("Total difference between Bad Text and Good Embeddings: " + str(diff))
+    print("Good") if diff < 0 else print("Bad")
+    print("Total Good: " + str(totalgood))
+    print("Total Bad: " + str(totalbad))
 
 if __name__ == "__main__":
     main()
