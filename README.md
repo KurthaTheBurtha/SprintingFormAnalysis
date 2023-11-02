@@ -5,3 +5,10 @@
 - Run embed.py either in the command prompt or with PyCharm
 - Run model.py
 - Done, observe the accuracy
+
+# Comparing text embeddings with image embeddings
+- Repeat the first 3 steps above
+- Run textembed.py
+- Observe results
+
+
