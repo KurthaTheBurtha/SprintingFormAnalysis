@@ -42,11 +42,11 @@ def main():
             totalgood +=1
         else:
             totalbad += 1
-    print("Total difference between Bad Text and Good Embeddings: " + str(diff))
-    print("Good") if diff < 0 else print("Bad")
-    print("Total Good: " + str(totalgood))
-    print("Total Bad: " + str(totalbad))
+    print("Total difference between Images and Good Text Embeddings: " + str(diff))
     print()
+    # print("Good") if diff < 0 else print("Bad")
+    # print("Total Good: " + str(totalgood))
+    # print("Total Bad: " + str(totalbad))
 
     # bad
     diff = 0
@@ -62,10 +62,10 @@ def main():
             totalgood +=1
         else:
             totalbad += 1
-    print("Total difference between Bad Text and Good Embeddings: " + str(diff))
-    print("Good") if diff < 0 else print("Bad")
-    print("Total Good: " + str(totalgood))
-    print("Total Bad: " + str(totalbad))
+    print("Total difference between Images and Bad Text Embeddings: " + str(diff))
+    # print("Good") if diff < 0 else print("Bad")
+    # print("Total Good: " + str(totalgood))
+    # print("Total Bad: " + str(totalbad))
 
 if __name__ == "__main__":
     main()

@@ -20,26 +20,24 @@ def train():
     # split dataset into test and train
     inputs_train, inputs_test, target_train, target_test = train_test_split(inputs, target, test_size=0.5, random_state=42)
 
-    # # 96.67% accuracy
+    # 96.67% accuracy
     classifier = MLPClassifier(random_state=0, hidden_layer_sizes=(25, 50, 10, 5), batch_size=5)
     classifier.fit(inputs_train, target_train)
     results = classifier.predict(inputs_test)
     print(str(round((results == target_test).mean() * 100, 2)) + '% accuracy')
 
     # GridSearchCV
-    # model = MLPClassifier()
-    # grid = GridSearchCV(model, {
-    #     'random_state': [0],
-    #     'hidden_layer_sizes': [(50,),(50,50),(50,50,50),(50,50,50,50),(25,50,10,5)],
-    #     'batch_size': [5, 10, 20, 50],
-    #     'learning_rate_init': [0.001, ]
-    # }, verbose=1)
-    # grid.fit(inputs_train, target_train)
-    # results = grid.score(inputs_test,target_test)
-    # print(results)
-    # print(grid.best_estimator_)
-    # print(grid.best_params_)
-    # print(grid.best_score_)
+    model = MLPClassifier()
+    grid = GridSearchCV(model, {
+        'random_state': [0],
+        'hidden_layer_sizes': [(50,),(50,50),(50,50,50),(50,50,50,50),(25,50,10,5)],
+        'batch_size': [5, 10, 20, 50],
+        'learning_rate_init': [0.001, ]
+    }, verbose=1)
+    grid.fit(inputs_train, target_train)
+    results = grid.score(inputs_test,target_test)
+    print(str(round(results*100,2))+'% accuracy')
+    print(grid.best_estimator_)
 
     # plot loss
     # num_epochs = 50

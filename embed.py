@@ -28,7 +28,6 @@ def main(foldername, filename):
 
     # embed several images
     images = [imagenette[i]['image'] for i in range(len(os.listdir(foldername)))]
-    # print(len(images))
 
     batch_size = 16
     image_arr = None
